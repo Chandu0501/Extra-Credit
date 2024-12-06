@@ -22,10 +22,18 @@ jobs:
     - name: Set up Go 1.20
       uses: actions/setup-go@v3
       with:
-        go-version: 1.20
-        check-latest: true # Ensures the latest patch for Go 1.20 is used
+        go-version: "1.20"
+        check-latest: true # Ensures the latest patch of Go 1.20 is used
 
-    - name: Check installed Go version
+    - name: Fallback - Manually install Go 1.20 (if setup-go fails)
+      if: failure()
+      run: |
+        wget https://golang.org/dl/go1.20.4.linux-amd64.tar.gz
+        sudo tar -C /usr/local -xzf go1.20.4.linux-amd64.tar.gz
+        echo "export PATH=/usr/local/go/bin:$PATH" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Check Go version
       run: go version
 
     - name: Install dependencies
