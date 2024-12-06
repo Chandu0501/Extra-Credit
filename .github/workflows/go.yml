@@ -16,16 +16,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Remove any cached Go version
-      run: rm -rf /opt/hostedtoolcache/go
+    - name: Clear any cached Go version
+      run: sudo rm -rf /opt/hostedtoolcache/go
 
-    - name: Set up Go
+    - name: Set up Go 1.20
       uses: actions/setup-go@v3
       with:
         go-version: 1.20
-        check-latest: true # Ensures the latest patch version of Go 1.20 is used
+        check-latest: true # Ensures the latest patch for Go 1.20 is used
 
-    - name: Check Go version
+    - name: Check installed Go version
       run: go version
 
     - name: Install dependencies
